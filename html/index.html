@@ -1,0 +1,156 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <!--
+    Modified from the Debian original for Ubuntu
+    Last updated: 2016-11-16
+    See: https://launchpad.net/bugs/1288690
+  -->
+  <head>
+   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>test js</title>
+<script type="text/javascript">
+    var pageNeedTobeSave = false;
+    function calljs() {
+        var s = document.getElementById("jsscriptContent");
+        var ret = document.getElementById("jsretval");
+        ret.value = eval(s.value);
+    }
+	 //window.onunload=function(){alert("window.onunload");};
+	 //window.onbeforeunload=function(e){　　var e = window.event||e;　　e.returnValue=("确定离开当前页面吗？");};
+	 function localstoragetest_write() {
+	        var storage=window.localStorage;
+            //写入a字段
+            storage["a"]=10;
+            //写入b字段
+            storage.b=20;
+            //写入c字段
+            storage.setItem("c",30);
+            console.log(typeof storage["a"]);
+            console.log(typeof storage["b"]);
+            console.log(typeof storage["c"]);
+	 }
+	 function localstoragetest_read() {
+	        var storage=window.localStorage;
+            //第一种方法读取
+            var a=storage.a;
+            console.log(a);
+            //第二种方法读取
+            var b=storage["b"];
+            console.log(b);
+            //第三种方法读取
+            var c=storage.getItem("c");
+            console.log(c);
+        var ret = document.getElementById("jsretval");
+        ret.value = a+", "+b+", "+c;
+	 }
+	 function localstoragetest_delete() {
+	        var storage=window.localStorage;
+            storage.removeItem("a");
+	 }
+	 function localstoragetest_clear() {
+	        var storage=window.localStorage;
+            storage.clear();
+	 }
+	 function cookie_write() {
+	        document.cookie="username=John Doe; expires=Thu, 18 Dec 2043 12:00:00 GMT";
+	 }
+	 function cookie_read() {
+        var ret = document.getElementById("jsretval");
+        ret.value = document.cookie;
+	 }
+	 function cookie_delete() {
+        document.cookie = "username=; expires=Thu, 01 Jan 1970 00:00:00 GMT"; 
+	 }
+	 function cloneme() {
+	    window.open("index.html");
+	 }
+     function checkLeave() {
+	     if (pageNeedTobeSave) {
+           event.returnValue="确定离开当前页面吗？";
+		 }
+     }
+</script>
+  </head>
+  <body onbeforeunload="checkLeave()">
+exec js: <input id="jsscriptContent" size="150" value=""></input>
+<br>
+<button id="execjs" onclick="calljs()">eval</button>
+<input id="jsretval" size="100"></input>
+<br></br>
+<button id="localstoragetest_write" onclick="localstoragetest_write()">localstoragetest_write</button>
+<button id="localstoragetest_read" onclick="localstoragetest_read()">localstoragetest_read</button>
+<button id="localstoragetest_delete" onclick="localstoragetest_delete()">localstoragetest_delete</button>
+<button id="localstoragetest_clear" onclick="localstoragetest_clear()">localstoragetest_clear</button>
+<br></br>
+<button id="cookie_write" onclick="cookie_write()">cookie_write</button>
+<button id="cookie_read" onclick="cookie_read()">cookie_read</button>
+<button id="cookie_delete" onclick="cookie_delete()">cookie_delete</button>
+<br></br>
+<button onclick="pageNeedTobeSave=true">mark need save</button>
+<br></br>
+打开文件对话框：<input type='file' name='filename' id='open' multiple />
+<br></br>
+download test:<br></br>
+<a href="test.pdf">test.pdf</a><br>
+<a href="test.pdf#toolbar=0">test.pdf#toolbar=0</a><br>
+<a href="downloads/中文测试.zip">中文测试.zip</a><br>
+<a href="downloads/curl-7.77.0.tar.xz" target="_blank">popup download</a><br>
+<a href="downloads/curl-7.77.0.zip">curl-7.77.0.zip</a><br>
+<a href="downloads/gnupg-2.2.27.tar.bz2">gnupg-2.2.27.tar.bz2</a><br>
+
+<input type="button" id="printMe" onclick="window.print()" value="print"></input>
+<br></br>
+
+<button id="closewindow" onclick="window.close()">close</button>
+<button id="messagebox" onclick="window.alert('test')">alert</button>
+
+
+<button onclick="myFunctionMessagebox()">messageboxTest</button>
+<button onclick="myFunctionInputBox()">inputboxTest</button>
+
+<p id="testResult"></p>
+
+<script>
+function myFunctionMessagebox() {
+  var txt;
+  if (confirm("Press a button!")) {
+    txt = "pressed ok";
+  } else {
+    txt = "pressed cancel";
+  }
+  document.getElementById("testResult").innerHTML = txt;
+}
+function myFunctionInputBox() {
+  var txt;
+  var person = prompt("Input your name: ", "test name");
+  if (person == null || person == "") {
+    txt = "pressed cancel";
+  } else {
+    txt = "Hello, " + person + "!";
+  }
+  document.getElementById("testResult").innerHTML = txt;
+}
+</script>
+
+<br></br>
+
+<p onmousedown="cloneme()">clone me when mouse down</p>
+<a target="_blank" href="index.html">clone me</a><br>
+
+<p>other tests</p>
+<a href="https://self-signed.badssl.com/">https://self-signed.badssl.com/</a><br>
+<a href="http://baddomain.com.io/">baddomain</a><br>
+<a href="https://www.w3school.com.cn/">www.w3school.com.cn</a><br>
+<a href="http://www.crystalorb.net/mikem/crbug/post.php">http://www.crystalorb.net/mikem/crbug/post.php</a><br>
+
+表单再次提交<br></br>
+	<form action="" method="post">
+		<input type="hidden" value="keywords" name="q" />
+		<input type="submit" name="submitbtn" value="submit" />
+	</form>
+
+  </body>
+
+</html>
+
